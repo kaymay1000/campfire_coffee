@@ -7,6 +7,8 @@ var pikePlaceMarket = {
   avgPndsCust: .34,
   randomNumCust: [],
   randomNumCups: [],
+  randomNumPounds: [],
+  locationDailyCupTotal: 0,
   randomNum: function(minNumCust, maxNumCust) {
     return Math.floor(Math.random() * (maxNumCust - minNumCust) + minNumCust);
   },
@@ -20,14 +22,29 @@ var pikePlaceMarket = {
   cupsPerHour: function() {
     for (i = 0; i < this.randomNumCust.length; i++) {
       numCupsPerHour = this.randomNumCust[i] * 1.2;
-      console.log(this.randomNumCups)
       this.randomNumCups.push(numCupsPerHour);
-      //return totalCupsForDay = this.randomNumCups + numCupsPerHour;
-      //console.log(totalCupsForDay);
+      console.log(this.randomNumCups)
+      // this.locationDailyCupTotal = this.randomNumCups.reduce(function sum(a + b) {
+      //   return a + b;
+      // } ,0);
+      //console.log(this.locationDailyCupTotal);
     }
-
+  },
+//   locationDailyCups: function() {
+//
+//   this.locationDailyCupTotal = locationDailyCupTotal + numCupsPerHour;
+//   console.log(locationDailyCupTotal);
+// }
+poundsPerHour: function() {
+  for (i = 0; i < this.randomNumCust.length; i++) {
+    numPoundsPerHour = this.randomNumCust[i] * 0.34;
+    this.randomNumPounds.push(numPoundsPerHour);
+    console.log(this.randomNumPounds)
   }
+}
+
 }
 pikePlaceMarket.randomNum(pikePlaceMarket.minNumCust, pikePlaceMarket.maxNumCust);
 pikePlaceMarket.customersPerHour();
 pikePlaceMarket.cupsPerHour();
+pikePlaceMarket.poundsPerHour();
