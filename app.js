@@ -9,6 +9,8 @@ var pikePlaceMarket = {
   randomNumCups: [],
   randomNumPounds: [],
   totalDailyCups: 0,
+  poundsNeededForToGo: 0,
+  poundsNeededForCups: 0,
   totalDailyPounds: 0,
   randomNum: function(minNumCust, maxNumCust) {
     return Math.floor(Math.random() * (maxNumCust - minNumCust) + minNumCust);
@@ -25,24 +27,33 @@ var pikePlaceMarket = {
       numCupsPerHour = this.randomNumCust[i] * 1.2;
       this.randomNumCups.push(numCupsPerHour);
       this.totalDailyCups += numCupsPerHour;
-      console.log(this.randomNumCups); //array
-      console.log(this.totalDailyCups); //just a number
+      console.log(this.randomNumCups + " cups array");
+      console.log(this.totalDailyCups + " daily cups");
       //return this.totalDailyCups; Why does this line screw it all up?
     }
   },
-  poundsPerHour: function() {
+  poundsPerHourToGo: function() {
     for (i = 0; i < this.randomNumCust.length; i++) {
       numPoundsPerHour = this.randomNumCust[i] * 0.34;
       this.randomNumPounds.push(numPoundsPerHour);
-      this.totalDailyPounds += numPoundsPerHour;
-      console.log(this.randomNumPounds); //array
-      console.log(this.totalDailyPounds); //just a number
-      //return this.totalDailyPounds; Why does this line screw it all up?
+      this.poundsNeededForToGo += numPoundsPerHour;
+      console.log(this.randomNumPounds + " pounds array");
+      console.log(this.poundsNeededForToGo + " daily to-go pounds");
+      //return this.poundsNeededForToGo; Why does this line screw it all up?
     }
+  },
+
+  totalDailyPoundsNeeded: function() {
+    this.poundsNeededForCups = this.totalDailyCups / 16; //need var?
+    console.log(this.poundsNeededForCups + " pounds needed for cups");
+    this.totalDailyPounds = this.poundsNeededForCups + this.poundsNeededForToGo;
+    console.log(this.totalDailyPounds + " total daily pounds togo and cups");
+  //  return this.totalDailyPounds;
   }
 
 }
 pikePlaceMarket.randomNum(pikePlaceMarket.minNumCust, pikePlaceMarket.maxNumCust);
 pikePlaceMarket.customersPerHour();
 pikePlaceMarket.cupsPerHour();
-pikePlaceMarket.poundsPerHour();
+pikePlaceMarket.poundsPerHourToGo();
+pikePlaceMarket.totalDailyPoundsNeeded();
