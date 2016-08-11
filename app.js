@@ -8,40 +8,38 @@ var pikePlaceMarket = {
   randomNumCust: [],
   randomNumCups: [],
   randomNumPounds: [],
-  locationDailyCupTotal: 0,
+  totalDailyCups: 0,
+  totalDailyPounds: 0,
   randomNum: function(minNumCust, maxNumCust) {
     return Math.floor(Math.random() * (maxNumCust - minNumCust) + minNumCust);
   },
   customersPerHour: function() {
     for (i = 0; i < hours.length; i++) {
       var numCustPerHour = this.randomNum(this.minNumCust, this.maxNumCust);
-      console.log(numCustPerHour);
       this.randomNumCust.push(numCustPerHour);
+      console.log(numCustPerHour);
     }
   },
   cupsPerHour: function() {
     for (i = 0; i < this.randomNumCust.length; i++) {
       numCupsPerHour = this.randomNumCust[i] * 1.2;
       this.randomNumCups.push(numCupsPerHour);
-      console.log(this.randomNumCups)
-      // this.locationDailyCupTotal = this.randomNumCups.reduce(function sum(a + b) {
-      //   return a + b;
-      // } ,0);
-      //console.log(this.locationDailyCupTotal);
+      this.totalDailyCups += numCupsPerHour;
+      console.log(this.randomNumCups); //array
+      console.log(this.totalDailyCups); //just a number
+      //return this.totalDailyCups; Why does this line screw it all up?
     }
   },
-//   locationDailyCups: function() {
-//
-//   this.locationDailyCupTotal = locationDailyCupTotal + numCupsPerHour;
-//   console.log(locationDailyCupTotal);
-// }
-poundsPerHour: function() {
-  for (i = 0; i < this.randomNumCust.length; i++) {
-    numPoundsPerHour = this.randomNumCust[i] * 0.34;
-    this.randomNumPounds.push(numPoundsPerHour);
-    console.log(this.randomNumPounds)
+  poundsPerHour: function() {
+    for (i = 0; i < this.randomNumCust.length; i++) {
+      numPoundsPerHour = this.randomNumCust[i] * 0.34;
+      this.randomNumPounds.push(numPoundsPerHour);
+      this.totalDailyPounds += numPoundsPerHour;
+      console.log(this.randomNumPounds); //array
+      console.log(this.totalDailyPounds); //just a number
+      //return this.totalDailyPounds; Why does this line screw it all up?
+    }
   }
-}
 
 }
 pikePlaceMarket.randomNum(pikePlaceMarket.minNumCust, pikePlaceMarket.maxNumCust);
