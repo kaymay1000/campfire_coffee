@@ -5,55 +5,67 @@ var pikePlaceMarket = {
   maxNumCust: 35,
   avgCupsCust: 1.2,
   avgPndsCust: .34,
-  randomNumCust: [],
-  randomNumCups: [],
-  randomNumPounds: [],
-  totalDailyCups: 0,
-  poundsNeededForToGo: 0,
-  poundsNeededForCups: 0,
-  totalDailyPounds: 0,
-  randomNum: function(minNumCust, maxNumCust) {
+  customersPerHour: [], //array that holds 16 random numbers of customers, one number for each hour.
+  cupsPerHour: [], //array that holds number of cups sold per hour (customersPerHour * 1.2)
+  totalDailyCups: 0, //total cups sold per day
+  poundsPerHourToGo: [], //array that holds number of pounds to-go per hour (customersPerHour * .34)
+  poundsPerHourCups: [], //array that holds number of pounds needed for cups per hour (cupsPerHour / 16)
+  totalPoundsToGo: 0, //total pounds needed to fulfill daily to-go orders(sum of poundsPerHourToGo array)
+  totalPoundsForCups: 0, //total pounds needed to fulfill daily cup orders (sum of poundsPerHourCups array)
+  totalDailyPounds: 0, //sum of totalPoundsToGo and totalPoundsForCups
+  getRandomNum: function(minNumCust, maxNumCust) {
     return Math.floor(Math.random() * (maxNumCust - minNumCust) + minNumCust);
   },
-  customersPerHour: function() {
+  getCustomersPerHour: function() {
     for (i = 0; i < hours.length; i++) {
-      var numCustPerHour = this.randomNum(this.minNumCust, this.maxNumCust);
-      this.randomNumCust.push(numCustPerHour);
+      var numCustPerHour = this.getRandomNum(this.minNumCust, this.maxNumCust);
+      this.customersPerHour.push(numCustPerHour);
       console.log(numCustPerHour);
     }
   },
-  cupsPerHour: function() {
-    for (i = 0; i < this.randomNumCust.length; i++) {
-      numCupsPerHour = this.randomNumCust[i] * 1.2;
-      this.randomNumCups.push(numCupsPerHour);
+  getCupsPerHour: function() {
+    for (i = 0; i < this.customersPerHour.length; i++) {
+      numCupsPerHour = this.customersPerHour[i] * 1.2;
+      this.cupsPerHour.push(numCupsPerHour);
       this.totalDailyCups += numCupsPerHour;
-      console.log(this.randomNumCups + " cups array");
-      console.log(this.totalDailyCups + " daily cups");
+      console.log(this.cupsPerHour + ' cups array');
+      console.log(this.totalDailyCups);
       //return this.totalDailyCups; Why does this line screw it all up?
     }
   },
-  poundsPerHourToGo: function() {
-    for (i = 0; i < this.randomNumCust.length; i++) {
-      numPoundsPerHour = this.randomNumCust[i] * 0.34;
-      this.randomNumPounds.push(numPoundsPerHour);
-      this.poundsNeededForToGo += numPoundsPerHour;
-      console.log(this.randomNumPounds + " pounds array");
-      console.log(this.poundsNeededForToGo + " daily to-go pounds");
-      //return this.poundsNeededForToGo; Why does this line screw it all up?
+  getPoundsPerHourToGo: function() {
+    for (i = 0; i < this.customersPerHour.length; i++) {
+      numPoundsPerHourToGo = this.customersPerHour[i] * 0.34;
+      this.poundsPerHourToGo.push(numPoundsPerHourToGo);
+      this.totalPoundsToGo += numPoundsPerHourToGo;
+      console.log(this.poundsPerHourToGo + ' pounds to-go array');
+      console.log(this.totalPoundsToGo);
+      //return this.totalPoundsToGo;
     }
   },
 
+  getPoundsPerHourCups: function() {
+    for (i = 0; i < this.customersPerHour.length; i++) {
+      numPoundsPerHourForCups = this.cupsPerHour[i] / 16; //need var?
+      this.poundsPerHourCups.push(numPoundsPerHourForCups);
+      this.totalPoundsForCups += numPoundsPerHourForCups;
+      console.log(this.poundsPerHourCups + ' pounds for cups array');
+      console.log(this.totalPoundsForCups);
+      //return this.totalPoundsForCups
+  }
+},
+
   totalDailyPoundsNeeded: function() {
-    this.poundsNeededForCups = this.totalDailyCups / 16; //need var?
-    console.log(this.poundsNeededForCups + " pounds needed for cups");
-    this.totalDailyPounds = this.poundsNeededForCups + this.poundsNeededForToGo;
-    console.log(this.totalDailyPounds + " total daily pounds togo and cups");
+
+    this.totalDailyPounds =  this.totalPoundsToGo + this.totalPoundsForCups;
+    console.log(this.totalDailyPounds + ' total daily pounds');
   //  return this.totalDailyPounds;
   }
 
 }
-pikePlaceMarket.randomNum(pikePlaceMarket.minNumCust, pikePlaceMarket.maxNumCust);
-pikePlaceMarket.customersPerHour();
-pikePlaceMarket.cupsPerHour();
-pikePlaceMarket.poundsPerHourToGo();
+pikePlaceMarket.getRandomNum(pikePlaceMarket.minNumCust, pikePlaceMarket.maxNumCust);
+pikePlaceMarket.getCustomersPerHour();
+pikePlaceMarket.getCupsPerHour();
+pikePlaceMarket.getPoundsPerHourToGo();
+pikePlaceMarket.getPoundsPerHourCups();
 pikePlaceMarket.totalDailyPoundsNeeded();
