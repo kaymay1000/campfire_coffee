@@ -5,332 +5,382 @@ var pikePlaceMarket = {
   maxNumCust: 35,
   avgCupsCust: 1.2,
   avgPndsCust: .34,
+  numCupsPerPound: 16,
   customersPerHour: [], //array that holds 16 random numbers of customers, one number for each hour.
   cupsPerHour: [], //array that holds number of cups sold per hour (customersPerHour * 1.2)
-  totalDailyCups: 0, //total cups sold per day
   poundsPerHourToGo: [], //array that holds number of pounds to-go per hour (customersPerHour * .34)
   poundsPerHourCups: [], //array that holds number of pounds needed for cups per hour (cupsPerHour / 16)
+  employeesPerHour: [], //array that holds number of employees needed per hour (based on customersPerHour)
+  totalDailyCups: 0, //total cups sold per day
   totalPoundsToGo: 0, //total pounds needed to fulfill daily to-go orders(sum of poundsPerHourToGo array)
   totalPoundsForCups: 0, //total pounds needed to fulfill daily cup orders (sum of poundsPerHourCups array)
-  totalDailyPounds: 0, //sum of totalPoundsToGo and totalPoundsForCups
+  totalDailyPoundsNeeded: 0, //sum of totalPoundsToGo and totalPoundsForCups
   getRandomNum: function(minNumCust, maxNumCust) {
     return Math.floor(Math.random() * (maxNumCust - minNumCust) + minNumCust);
   },
-  getCustomersPerHour: function() {
+  generateCustomersPerHour: function() {
     for (i = 0; i < hours.length; i++) {
-      var numCustPerHour = this.getRandomNum(this.minNumCust, this.maxNumCust);
-      this.customersPerHour.push(numCustPerHour);
-      console.log(numCustPerHour);
+      var tempCust = this.getRandomNum(this.minNumCust, this.maxNumCust);
+      this.customersPerHour.push(tempCust);
+      console.log(tempCust);
     }
   },
-  getCupsPerHour: function() {
+  generateCupsPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numCupsPerHour = this.customersPerHour[i] * 1.2;
-      this.cupsPerHour.push(numCupsPerHour);
-      this.totalDailyCups += numCupsPerHour;
-      console.log(this.cupsPerHour + ' cups array');
+      var tempCups = this.customersPerHour[i] * this.avgCupsCust;
+      this.cupsPerHour.push(tempCups);
+      this.totalDailyCups += tempCups;
+      console.log(this.cupsPerHour);
       console.log(this.totalDailyCups);
-      //return this.totalDailyCups; Why does this line screw it all up?
     }
   },
-  getPoundsPerHourToGo: function() {
+  generatePoundsPerHourToGo: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numPoundsPerHourToGo = this.customersPerHour[i] * 0.34;
-      this.poundsPerHourToGo.push(numPoundsPerHourToGo);
-      this.totalPoundsToGo += numPoundsPerHourToGo;
-      console.log(this.poundsPerHourToGo + ' pounds to-go array');
+      var tempPoundsToGo = this.customersPerHour[i] * this.avgPndsCust;
+      this.poundsPerHourToGo.push(tempPoundsToGo);
+      this.totalPoundsToGo += tempPoundsToGo;
+      console.log(this.poundsPerHourToGo);
       console.log(this.totalPoundsToGo);
-      //return this.totalPoundsToGo;
     }
   },
-  getPoundsPerHourCups: function() {
+  generatePoundsPerHourCups: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numPoundsPerHourForCups = this.cupsPerHour[i] / 16; //need var?
-      this.poundsPerHourCups.push(numPoundsPerHourForCups);
-      this.totalPoundsForCups += numPoundsPerHourForCups;
-      console.log(this.poundsPerHourCups + ' pounds for cups array');
+      var tempPoundsForCups = this.cupsPerHour[i] / this.numCupsPerPound;
+      this.poundsPerHourCups.push(tempPoundsForCups);
+      this.totalPoundsForCups += tempPoundsForCups;
+      console.log(this.poundsPerHourCups);
       console.log(this.totalPoundsForCups);
-      //return this.totalPoundsForCups
     }
   },
-  totalDailyPoundsNeeded: function() {
-    this.totalDailyPounds =  this.totalPoundsToGo + this.totalPoundsForCups;
-    console.log(this.totalDailyPounds + ' total daily pounds');
-    //  return this.totalDailyPounds;
+  generateTotalDailyPoundsNeeded: function() {
+    this.totalDailyPoundsNeeded =  this.totalPoundsToGo + this.totalPoundsForCups;
+    console.log(this.totalDailyPoundsNeeded);
+  },
+  generateEmployeesPerHour: function() {
+    var tempEmployees = Math.ceil(this.customersPerHour[i] / 30);
+    this.employeesPerHour.push(tempEmployees);
+    console.log(this.employeesPerHour);
+  },
+  render: function() {
+    this.getRandomNum(this.minNumCust, this.maxNumCust);
+    this.generateCustomersPerHour();
+    this.generateCupsPerHour();
+    this.generatePoundsPerHourToGo();
+    this.generatePoundsPerHourCups();
+    this.generateTotalDailyPoundsNeeded();
+    this.generateEmployeesPerHour();
   }
 }
-
-pikePlaceMarket.getRandomNum(pikePlaceMarket.minNumCust, pikePlaceMarket.maxNumCust);
-pikePlaceMarket.getCustomersPerHour();
-pikePlaceMarket.getCupsPerHour();
-pikePlaceMarket.getPoundsPerHourToGo();
-pikePlaceMarket.getPoundsPerHourCups();
-pikePlaceMarket.totalDailyPoundsNeeded();
+pikePlaceMarket.render();
 
 var capitolHill = {
   minNumCust: 12,
   maxNumCust: 28,
   avgCupsCust: 3.2,
   avgPndsCust: .03,
+  numCupsPerPound: 16,
   customersPerHour: [], //array that holds 16 random numbers of customers, one number for each hour.
-  cupsPerHour: [], //array that holds number of cups sold per hour (customersPerHour * 1.2)
-  totalDailyCups: 0, //total cups sold per day
+  cupsPerHour: [], //array that holds number of cups sold per hour (customersPerHour * avgCupsCust)
   poundsPerHourToGo: [], //array that holds number of pounds to-go per hour (customersPerHour * .34)
   poundsPerHourCups: [], //array that holds number of pounds needed for cups per hour (cupsPerHour / 16)
+  employeesPerHour: [], //array that holds number of employees needed per hour (based on customersPerHour)
+  totalDailyCups: 0, //total cups sold per day
   totalPoundsToGo: 0, //total pounds needed to fulfill daily to-go orders(sum of poundsPerHourToGo array)
   totalPoundsForCups: 0, //total pounds needed to fulfill daily cup orders (sum of poundsPerHourCups array)
-  totalDailyPounds: 0, //sum of totalPoundsToGo and totalPoundsForCups
+  totalDailyPoundsNeeded: 0, //sum of totalPoundsToGo and totalPoundsForCups
   getRandomNum: function(minNumCust, maxNumCust) {
     return Math.floor(Math.random() * (maxNumCust - minNumCust) + minNumCust);
   },
-  getCustomersPerHour: function() {
+  generateCustomersPerHour: function() {
     for (i = 0; i < hours.length; i++) {
-      var numCustPerHour = this.getRandomNum(this.minNumCust, this.maxNumCust);
-      this.customersPerHour.push(numCustPerHour);
-      console.log(numCustPerHour);
+      var tempCust = this.getRandomNum(this.minNumCust, this.maxNumCust);
+      this.customersPerHour.push(tempCust);
+      console.log(tempCust);
     }
   },
-  getCupsPerHour: function() {
+  generateCupsPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numCupsPerHour = this.customersPerHour[i] * 1.2;
-      this.cupsPerHour.push(numCupsPerHour);
-      this.totalDailyCups += numCupsPerHour;
-      console.log(this.cupsPerHour + ' cups array');
+      var tempCups = this.customersPerHour[i] * this.avgCupsCust;
+      this.cupsPerHour.push(tempCups);
+      this.totalDailyCups += tempCups;
+      console.log(this.cupsPerHour);
       console.log(this.totalDailyCups);
-      //return this.totalDailyCups; Why does this line screw it all up?
     }
   },
-  getPoundsPerHourToGo: function() {
+  generatePoundsPerHourToGo: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numPoundsPerHourToGo = this.customersPerHour[i] * 0.34;
-      this.poundsPerHourToGo.push(numPoundsPerHourToGo);
-      this.totalPoundsToGo += numPoundsPerHourToGo;
-      console.log(this.poundsPerHourToGo + ' pounds to-go array');
+      var tempPoundsToGo = this.customersPerHour[i] * this.avgPndsCust;
+      this.poundsPerHourToGo.push(tempPoundsToGo);
+      this.totalPoundsToGo += tempPoundsToGo;
+      console.log(this.poundsPerHourToGo);
       console.log(this.totalPoundsToGo);
-      //return this.totalPoundsToGo;
     }
   },
-  getPoundsPerHourCups: function() {
+  generatePoundsPerHourCups: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numPoundsPerHourForCups = this.cupsPerHour[i] / 16; //need var?
-      this.poundsPerHourCups.push(numPoundsPerHourForCups);
-      this.totalPoundsForCups += numPoundsPerHourForCups;
-      console.log(this.poundsPerHourCups + ' pounds for cups array');
+      var tempPoundsForCups = this.cupsPerHour[i] / this.numCupsPerPound;
+      this.poundsPerHourCups.push(tempPoundsForCups);
+      this.totalPoundsForCups += tempPoundsForCups;
+      console.log(this.poundsPerHourCups);
       console.log(this.totalPoundsForCups);
-      //return this.totalPoundsForCups
     }
   },
-  totalDailyPoundsNeeded: function() {
-    this.totalDailyPounds =  this.totalPoundsToGo + this.totalPoundsForCups;
-    console.log(this.totalDailyPounds + ' total daily pounds');
-    //  return this.totalDailyPounds;
+  generateTotalDailyPoundsNeeded: function() {
+    this.totalDailyPoundsNeeded =  this.totalPoundsToGo + this.totalPoundsForCups;
+    console.log(this.totalDailyPoundsNeeded);
+  },
+  generateEmployeesPerHour: function() {
+    for (i = 0; i < this.customersPerHour.length; i++) {
+    var tempEmployees = Math.ceil(this.customersPerHour[i] / 30);
+    this.employeesPerHour.push(tempEmployees);
+    console.log(this.employeesPerHour);
+    }
+  },
+  render: function() {
+    this.getRandomNum(this.minNumCust, this.maxNumCust);
+    this.generateCustomersPerHour();
+    this.generateCupsPerHour();
+    this.generatePoundsPerHourToGo();
+    this.generatePoundsPerHourCups();
+    this.generateTotalDailyPoundsNeeded();
+    this.generateEmployeesPerHour();
   }
 }
-
-capitolHill.getRandomNum(capitolHill.minNumCust, capitolHill.maxNumCust);
-capitolHill.getCustomersPerHour();
-capitolHill.getCupsPerHour();
-capitolHill.getPoundsPerHourToGo();
-capitolHill.getPoundsPerHourCups();
-capitolHill.totalDailyPoundsNeeded();
+capitolHill.render();
 
 var seattlePublicLibrary = {
   minNumCust: 9,
   maxNumCust: 45,
   avgCupsCust: 2.6,
   avgPndsCust: .02,
+  numCupsPerPound: 16,
   customersPerHour: [], //array that holds 16 random numbers of customers, one number for each hour.
-  cupsPerHour: [], //array that holds number of cups sold per hour (customersPerHour * 1.2)
-  totalDailyCups: 0, //total cups sold per day
+  cupsPerHour: [], //array that holds number of cups sold per hour (customersPerHour * avgCupsCust)
   poundsPerHourToGo: [], //array that holds number of pounds to-go per hour (customersPerHour * .34)
   poundsPerHourCups: [], //array that holds number of pounds needed for cups per hour (cupsPerHour / 16)
+  employeesPerHour: [], //array that holds number of employees needed per hour (based on customersPerHour)
+  totalDailyCups: 0, //total cups sold per day
   totalPoundsToGo: 0, //total pounds needed to fulfill daily to-go orders(sum of poundsPerHourToGo array)
   totalPoundsForCups: 0, //total pounds needed to fulfill daily cup orders (sum of poundsPerHourCups array)
-  totalDailyPounds: 0, //sum of totalPoundsToGo and totalPoundsForCups
+  totalDailyPoundsNeeded: 0, //sum of totalPoundsToGo and totalPoundsForCups
   getRandomNum: function(minNumCust, maxNumCust) {
     return Math.floor(Math.random() * (maxNumCust - minNumCust) + minNumCust);
   },
-  getCustomersPerHour: function() {
+  generateCustomersPerHour: function() {
     for (i = 0; i < hours.length; i++) {
-      var numCustPerHour = this.getRandomNum(this.minNumCust, this.maxNumCust);
-      this.customersPerHour.push(numCustPerHour);
-      console.log(numCustPerHour);
+      var tempCust = this.getRandomNum(this.minNumCust, this.maxNumCust);
+      this.customersPerHour.push(tempCust);
+      console.log(tempCust);
     }
   },
-  getCupsPerHour: function() {
+  generateCupsPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numCupsPerHour = this.customersPerHour[i] * 1.2;
-      this.cupsPerHour.push(numCupsPerHour);
-      this.totalDailyCups += numCupsPerHour;
-      console.log(this.cupsPerHour + ' cups array');
+      var tempCups = this.customersPerHour[i] * this.avgCupsCust;
+      this.cupsPerHour.push(tempCups);
+      this.totalDailyCups += tempCups;
+      console.log(this.cupsPerHour);
       console.log(this.totalDailyCups);
       //return this.totalDailyCups; Why does this line screw it all up?
     }
   },
-  getPoundsPerHourToGo: function() {
+  generatePoundsPerHourToGo: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numPoundsPerHourToGo = this.customersPerHour[i] * 0.34;
-      this.poundsPerHourToGo.push(numPoundsPerHourToGo);
-      this.totalPoundsToGo += numPoundsPerHourToGo;
-      console.log(this.poundsPerHourToGo + ' pounds to-go array');
+      var tempPoundsToGo = this.customersPerHour[i] * this.avgPndsCust;
+      this.poundsPerHourToGo.push(tempPoundsToGo);
+      this.totalPoundsToGo += tempPoundsToGo;
+      console.log(this.poundsPerHourToGo);
       console.log(this.totalPoundsToGo);
       //return this.totalPoundsToGo;
     }
   },
-  getPoundsPerHourCups: function() {
+  generatePoundsPerHourCups: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numPoundsPerHourForCups = this.cupsPerHour[i] / 16; //need var?
-      this.poundsPerHourCups.push(numPoundsPerHourForCups);
-      this.totalPoundsForCups += numPoundsPerHourForCups;
-      console.log(this.poundsPerHourCups + ' pounds for cups array');
+      var tempPoundsForCups = this.cupsPerHour[i] / this.numCupsPerPound;
+      this.poundsPerHourCups.push(tempPoundsForCups);
+      this.totalPoundsForCups += tempPoundsForCups;
+      console.log(this.poundsPerHourCups);
       console.log(this.totalPoundsForCups);
       //return this.totalPoundsForCups
     }
   },
-  totalDailyPoundsNeeded: function() {
-    this.totalDailyPounds =  this.totalPoundsToGo + this.totalPoundsForCups;
-    console.log(this.totalDailyPounds + ' total daily pounds');
-    //  return this.totalDailyPounds;
+  generateTotalDailyPoundsNeeded: function() {
+    this.totalDailyPoundsNeeded =  this.totalPoundsToGo + this.totalPoundsForCups;
+    console.log(this.totalDailyPoundsNeeded);
+    //  return this.totalDailyPoundsNeeded;
+  },
+  generateEmployeesPerHour: function() {
+    for (i = 0; i < this.customersPerHour.length; i++) {
+    var tempEmployees = Math.ceil(this.customersPerHour[i] / 30);
+    this.employeesPerHour.push(tempEmployees);
+    console.log(this.employeesPerHour);
+    }
+  },
+  render: function() {
+    this.getRandomNum(this.minNumCust, this.maxNumCust);
+    this.generateCustomersPerHour();
+    this.generateCupsPerHour();
+    this.generatePoundsPerHourToGo();
+    this.generatePoundsPerHourCups();
+    this.generateTotalDailyPoundsNeeded();
+    this.generateEmployeesPerHour();
   }
 }
-
-seattlePublicLibrary.getRandomNum(seattlePublicLibrary.minNumCust, seattlePublicLibrary.maxNumCust);
-seattlePublicLibrary.getCustomersPerHour();
-seattlePublicLibrary.getCupsPerHour();
-seattlePublicLibrary.getPoundsPerHourToGo();
-seattlePublicLibrary.getPoundsPerHourCups();
-seattlePublicLibrary.totalDailyPoundsNeeded();
+seattlePublicLibrary.render();
 
 var southLakeUnion = {
   minNumCust: 5,
   maxNumCust: 18,
   avgCupsCust: 1.3,
   avgPndsCust: .04,
+  numCupsPerPound: 16,
   customersPerHour: [], //array that holds 16 random numbers of customers, one number for each hour.
-  cupsPerHour: [], //array that holds number of cups sold per hour (customersPerHour * 1.2)
-  totalDailyCups: 0, //total cups sold per day
+  cupsPerHour: [], //array that holds number of cups sold per hour (customersPerHour * avgCupsCust)
   poundsPerHourToGo: [], //array that holds number of pounds to-go per hour (customersPerHour * .34)
   poundsPerHourCups: [], //array that holds number of pounds needed for cups per hour (cupsPerHour / 16)
+  employeesPerHour: [], //array that holds number of employees needed per hour (based on customersPerHour)
+  totalDailyCups: 0, //total cups sold per day
   totalPoundsToGo: 0, //total pounds needed to fulfill daily to-go orders(sum of poundsPerHourToGo array)
   totalPoundsForCups: 0, //total pounds needed to fulfill daily cup orders (sum of poundsPerHourCups array)
-  totalDailyPounds: 0, //sum of totalPoundsToGo and totalPoundsForCups
+  totalDailyPoundsNeeded: 0, //sum of totalPoundsToGo and totalPoundsForCups
   getRandomNum: function(minNumCust, maxNumCust) {
     return Math.floor(Math.random() * (maxNumCust - minNumCust) + minNumCust);
   },
-  getCustomersPerHour: function() {
+  generateCustomersPerHour: function() {
     for (i = 0; i < hours.length; i++) {
-      var numCustPerHour = this.getRandomNum(this.minNumCust, this.maxNumCust);
-      this.customersPerHour.push(numCustPerHour);
-      console.log(numCustPerHour);
+      var tempCust = this.getRandomNum(this.minNumCust, this.maxNumCust);
+      this.customersPerHour.push(tempCust);
+      console.log(tempCust);
     }
   },
-  getCupsPerHour: function() {
+  generateCupsPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numCupsPerHour = this.customersPerHour[i] * 1.2;
-      this.cupsPerHour.push(numCupsPerHour);
-      this.totalDailyCups += numCupsPerHour;
-      console.log(this.cupsPerHour + ' cups array');
+      var tempCups = this.customersPerHour[i] * this.avgCupsCust;
+      this.cupsPerHour.push(tempCups);
+      this.totalDailyCups += tempCups;
+      console.log(this.cupsPerHour);
       console.log(this.totalDailyCups);
       //return this.totalDailyCups; Why does this line screw it all up?
     }
   },
-  getPoundsPerHourToGo: function() {
+  generatePoundsPerHourToGo: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numPoundsPerHourToGo = this.customersPerHour[i] * 0.34;
-      this.poundsPerHourToGo.push(numPoundsPerHourToGo);
-      this.totalPoundsToGo += numPoundsPerHourToGo;
-      console.log(this.poundsPerHourToGo + ' pounds to-go array');
+      var tempPoundsToGo = this.customersPerHour[i] * this.avgPndsCust;
+      this.poundsPerHourToGo.push(tempPoundsToGo);
+      this.totalPoundsToGo += tempPoundsToGo;
+      console.log(this.poundsPerHourToGo);
       console.log(this.totalPoundsToGo);
       //return this.totalPoundsToGo;
     }
   },
-  getPoundsPerHourCups: function() {
+  generatePoundsPerHourCups: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numPoundsPerHourForCups = this.cupsPerHour[i] / 16; //need var?
-      this.poundsPerHourCups.push(numPoundsPerHourForCups);
-      this.totalPoundsForCups += numPoundsPerHourForCups;
-      console.log(this.poundsPerHourCups + ' pounds for cups array');
+      var tempPoundsForCups = this.cupsPerHour[i] / this.numCupsPerPound;
+      this.poundsPerHourCups.push(tempPoundsForCups);
+      this.totalPoundsForCups += tempPoundsForCups;
+      console.log(this.poundsPerHourCups);
       console.log(this.totalPoundsForCups);
       //return this.totalPoundsForCups
     }
   },
-  totalDailyPoundsNeeded: function() {
-    this.totalDailyPounds =  this.totalPoundsToGo + this.totalPoundsForCups;
-    console.log(this.totalDailyPounds + ' total daily pounds');
-    //  return this.totalDailyPounds;
+  generateTotalDailyPoundsNeeded: function() {
+    this.totalDailyPoundsNeeded =  this.totalPoundsToGo + this.totalPoundsForCups;
+    console.log(this.totalDailyPoundsNeeded);
+    //  return this.totalDailyPoundsNeeded;
+  },
+  generateEmployeesPerHour: function() {
+    for (i = 0; i < this.customersPerHour.length; i++) {
+    var tempEmployees = Math.ceil(this.customersPerHour[i] / 30);
+    this.employeesPerHour.push(tempEmployees);
+    console.log(this.employeesPerHour);
+    }
+  },
+  render: function() {
+    this.getRandomNum(this.minNumCust, this.maxNumCust);
+    this.generateCustomersPerHour();
+    this.generateCupsPerHour();
+    this.generatePoundsPerHourToGo();
+    this.generatePoundsPerHourCups();
+    this.generateTotalDailyPoundsNeeded();
+    this.generateEmployeesPerHour();
   }
 }
-
-southLakeUnion.getRandomNum(southLakeUnion.minNumCust, southLakeUnion.maxNumCust);
-southLakeUnion.getCustomersPerHour();
-southLakeUnion.getCupsPerHour();
-southLakeUnion.getPoundsPerHourToGo();
-southLakeUnion.getPoundsPerHourCups();
-southLakeUnion.totalDailyPoundsNeeded();
+southLakeUnion.render();
 
 var seaTacAirport = {
   minNumCust: 28,
   maxNumCust: 44,
   avgCupsCust: 1.1,
   avgPndsCust: .41,
+  numCupsPerPound: 16,
   customersPerHour: [], //array that holds 16 random numbers of customers, one number for each hour.
-  cupsPerHour: [], //array that holds number of cups sold per hour (customersPerHour * 1.2)
-  totalDailyCups: 0, //total cups sold per day
+  cupsPerHour: [], //array that holds number of cups sold per hour (customersPerHour * avgCupsCust)
   poundsPerHourToGo: [], //array that holds number of pounds to-go per hour (customersPerHour * .34)
   poundsPerHourCups: [], //array that holds number of pounds needed for cups per hour (cupsPerHour / 16)
+  employeesPerHour: [], //array that holds number of employees needed per hour (based on customersPerHour)
+  totalDailyCups: 0, //total cups sold per day
   totalPoundsToGo: 0, //total pounds needed to fulfill daily to-go orders(sum of poundsPerHourToGo array)
   totalPoundsForCups: 0, //total pounds needed to fulfill daily cup orders (sum of poundsPerHourCups array)
-  totalDailyPounds: 0, //sum of totalPoundsToGo and totalPoundsForCups
+  totalDailyPoundsNeeded: 0, //sum of totalPoundsToGo and totalPoundsForCups
   getRandomNum: function(minNumCust, maxNumCust) {
     return Math.floor(Math.random() * (maxNumCust - minNumCust) + minNumCust);
   },
-  getCustomersPerHour: function() {
+  generateCustomersPerHour: function() {
     for (i = 0; i < hours.length; i++) {
-      var numCustPerHour = this.getRandomNum(this.minNumCust, this.maxNumCust);
-      this.customersPerHour.push(numCustPerHour);
-      console.log(numCustPerHour);
+      var tempCust = this.getRandomNum(this.minNumCust, this.maxNumCust);
+      this.customersPerHour.push(tempCust);
+      console.log(tempCust);
     }
   },
-  getCupsPerHour: function() {
+  generateCupsPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numCupsPerHour = this.customersPerHour[i] * 1.2;
-      this.cupsPerHour.push(numCupsPerHour);
-      this.totalDailyCups += numCupsPerHour;
-      console.log(this.cupsPerHour + ' cups array');
+      var tempCups = this.customersPerHour[i] * this.avgCupsCust;
+      this.cupsPerHour.push(tempCups);
+      this.totalDailyCups += tempCups;
+      console.log(this.cupsPerHour);
       console.log(this.totalDailyCups);
       //return this.totalDailyCups; Why does this line screw it all up?
     }
   },
-  getPoundsPerHourToGo: function() {
+  generatePoundsPerHourToGo: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numPoundsPerHourToGo = this.customersPerHour[i] * 0.34;
-      this.poundsPerHourToGo.push(numPoundsPerHourToGo);
-      this.totalPoundsToGo += numPoundsPerHourToGo;
-      console.log(this.poundsPerHourToGo + ' pounds to-go array');
+      var tempPoundsToGo = this.customersPerHour[i] * this.avgPndsCust;
+      this.poundsPerHourToGo.push(tempPoundsToGo);
+      this.totalPoundsToGo += tempPoundsToGo;
+      console.log(this.poundsPerHourToGo);
       console.log(this.totalPoundsToGo);
       //return this.totalPoundsToGo;
     }
   },
-  getPoundsPerHourCups: function() {
+  generatePoundsPerHourCups: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      numPoundsPerHourForCups = this.cupsPerHour[i] / 16; //need var?
-      this.poundsPerHourCups.push(numPoundsPerHourForCups);
-      this.totalPoundsForCups += numPoundsPerHourForCups;
-      console.log(this.poundsPerHourCups + ' pounds for cups array');
+      var tempPoundsForCups = this.cupsPerHour[i] / this.numCupsPerPound;
+      this.poundsPerHourCups.push(tempPoundsForCups);
+      this.totalPoundsForCups += tempPoundsForCups;
+      console.log(this.poundsPerHourCups);
       console.log(this.totalPoundsForCups);
       //return this.totalPoundsForCups
     }
   },
-  totalDailyPoundsNeeded: function() {
-    this.totalDailyPounds =  this.totalPoundsToGo + this.totalPoundsForCups;
-    console.log(this.totalDailyPounds + ' total daily pounds');
-    //  return this.totalDailyPounds;
+  generateTotalDailyPoundsNeeded: function() {
+    this.totalDailyPoundsNeeded =  this.totalPoundsToGo + this.totalPoundsForCups;
+    console.log(this.totalDailyPoundsNeeded);
+    //return this.totalDailyPoundsNeeded;
+  },
+  generateEmployeesPerHour: function() {
+    for (i = 0; i < this.customersPerHour.length; i++) {
+    var tempEmployees = Math.ceil(this.customersPerHour[i] / 30);
+    this.employeesPerHour.push(tempEmployees);
+    console.log(this.employeesPerHour);
+    }
+  },
+  render: function() {
+    this.getRandomNum(this.minNumCust, this.maxNumCust);
+    this.generateCustomersPerHour();
+    this.generateCupsPerHour();
+    this.generatePoundsPerHourToGo();
+    this.generatePoundsPerHourCups();
+    this.generateTotalDailyPoundsNeeded();
+    this.generateEmployeesPerHour();
   }
 }
-
-seaTacAirport.getRandomNum(seaTacAirport.minNumCust, seaTacAirport.maxNumCust);
-seaTacAirport.getCustomersPerHour();
-seaTacAirport.getCupsPerHour();
-seaTacAirport.getPoundsPerHourToGo();
-seaTacAirport.getPoundsPerHourCups();
-seaTacAirport.totalDailyPoundsNeeded();
+seaTacAirport.render();
