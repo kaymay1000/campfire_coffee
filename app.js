@@ -5,6 +5,10 @@ var seaLibraryUl = document.getElementById('seattle-public-library');
 var sluUl = document.getElementById('south-lake-union');
 var seaTacUl = document.getElementById('sea-tac-airport');
 
+function round (num, places) {
+  return parseFloat(num.toFixed(places))
+}
+
 var pikePlaceMarket = {
   minNumCust: 14,
   maxNumCust: 35,
@@ -35,41 +39,34 @@ var pikePlaceMarket = {
   },
   generateCupsPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempCups = this.customersPerHour[i] * this.avgCupsCust;
+      var tempCups = round((this.customersPerHour[i] * this.avgCupsCust), 1);
       this.cupsPerHour.push(tempCups);
       this.totalDailyCups += tempCups;
     }
   },
   generatePoundsPerHourToGo: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempPoundsToGo = this.customersPerHour[i] * this.avgPndsCust;
+      var tempPoundsToGo = round((this.customersPerHour[i] * this.avgPndsCust), 1);
       this.poundsPerHourToGo.push(tempPoundsToGo);
       this.totalPoundsToGo += tempPoundsToGo;
-      console.log(this.poundsPerHourToGo + ' pounds per hour to-go');
-      console.log(this.totalPoundsToGo + ' total pounds to-go');
     }
   },
   generatePoundsPerHourCups: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempPoundsForCups = this.cupsPerHour[i] / this.numCupsPerPound;
+      var tempPoundsForCups = round((this.cupsPerHour[i] / this.numCupsPerPound), 1);
       this.poundsPerHourCups.push(tempPoundsForCups);
       this.totalPoundsForCups += tempPoundsForCups;
-      console.log(this.poundsPerHourCups + ' pounds per hour cups');
-      console.log(this.totalPoundsForCups + ' total pounds for cups');
     }
   },
   generateTotalHourlyPoundsNeeded: function() {
     for (i = 0; i < hours.length; i++) {
-      var tempTotalHourlyPounds = this.poundsPerHourCups[i] + this.poundsPerHourToGo[i];
+      var tempTotalHourlyPounds = round((this.poundsPerHourCups[i] + this.poundsPerHourToGo[i]), 1);
       this.totalHourlyPounds.push(tempTotalHourlyPounds);
       this.totalHourlyPoundsNeeded = tempTotalHourlyPounds;
-      //this.totalHourlyPoundsNeeded = this.poundsPerHourCups[i] + this.poundsPerHourToGo[i];
-      console.log(this.totalHourlyPoundsNeeded + ' total hourly pounds needed');
     }
   },
   generateTotalDailyPoundsNeeded: function() {
-    this.totalDailyPoundsNeeded =  this.totalPoundsToGo + this.totalPoundsForCups;
-    console.log(this.totalDailyPoundsNeeded);
+    this.totalDailyPoundsNeeded =  round((this.totalPoundsToGo + this.totalPoundsForCups), 1);
   },
   generateEmployeesPerHour: function() {
     var tempEmployees = Math.ceil(this.customersPerHour[i] / 30);
@@ -85,13 +82,13 @@ var pikePlaceMarket = {
     customersLi.textContent = 'Total customers at Pike Place Market: ' + this.totalDailyCustomers;
     pikePlaceUl.appendChild(customersLi);
     var cupsLi = document.createElement('li');
-    cupsLi.textContent = 'Total cups sold at Pike Place Market: ' + this.totalDailyCups;
+    cupsLi.textContent = 'Total cups sold at Pike Place Market: ' + round(this.totalDailyCups, 1);
     pikePlaceUl.appendChild(cupsLi);
     var totalDailyToGoPoundsLi = document.createElement('li');
-    totalDailyToGoPoundsLi.textContent = 'Total to-go pound packages sold at Pike Place Market: ' + this.totalPoundsToGo;
+    totalDailyToGoPoundsLi.textContent = 'Total to-go pound packages sold at Pike Place Market: ' + round(this.totalPoundsToGo, 1);
     pikePlaceUl.appendChild(totalDailyToGoPoundsLi);
     var totalDailyPoundsLi = document.createElement('li');
-    totalDailyPoundsLi.textContent = 'Total pounds of beans needed at Pike Place Market: ' + this.totalDailyPoundsNeeded;
+    totalDailyPoundsLi.textContent = 'Total pounds of beans needed at Pike Place Market: ' + round(this.totalDailyPoundsNeeded, 1);
     pikePlaceUl.appendChild(totalDailyPoundsLi);
   },
   render: function() {
@@ -137,36 +134,34 @@ var capitolHill = {
   },
   generateCupsPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempCups = this.customersPerHour[i] * this.avgCupsCust;
+      var tempCups = round((this.customersPerHour[i] * this.avgCupsCust), 1);
       this.cupsPerHour.push(tempCups);
       this.totalDailyCups += tempCups;
     }
   },
   generatePoundsPerHourToGo: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempPoundsToGo = this.customersPerHour[i] * this.avgPndsCust;
+      var tempPoundsToGo = round((this.customersPerHour[i] * this.avgPndsCust), 1);
       this.poundsPerHourToGo.push(tempPoundsToGo);
       this.totalPoundsToGo += tempPoundsToGo;
     }
   },
   generatePoundsPerHourCups: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempPoundsForCups = this.cupsPerHour[i] / this.numCupsPerPound;
+      var tempPoundsForCups = round((this.cupsPerHour[i] / this.numCupsPerPound), 1);
       this.poundsPerHourCups.push(tempPoundsForCups);
       this.totalPoundsForCups += tempPoundsForCups;
     }
   },
   generateTotalHourlyPoundsNeeded: function() {
     for (i = 0; i < hours.length; i++) {
-      var tempTotalHourlyPounds = this.poundsPerHourCups[i] + this.poundsPerHourToGo[i];
+      var tempTotalHourlyPounds = round((this.poundsPerHourCups[i] + this.poundsPerHourToGo[i]), 1);
       this.totalHourlyPounds.push(tempTotalHourlyPounds);
       this.totalHourlyPoundsNeeded = tempTotalHourlyPounds;
-      //this.totalHourlyPoundsNeeded = this.poundsPerHourCups[i] + this.poundsPerHourToGo[i];
-      console.log(this.totalHourlyPoundsNeeded + ' total hourly pounds needed');
     }
   },
   generateTotalDailyPoundsNeeded: function() {
-    this.totalDailyPoundsNeeded =  this.totalPoundsToGo + this.totalPoundsForCups;
+    this.totalDailyPoundsNeeded =  round((this.totalPoundsToGo + this.totalPoundsForCups), 1);
   },
   generateEmployeesPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
@@ -184,13 +179,13 @@ var capitolHill = {
     customersLi.textContent = 'Total customers at Capitol Hill: ' + this.totalDailyCustomers;
     capHillUl.appendChild(customersLi);
     var cupsLi = document.createElement('li');
-    cupsLi.textContent = 'Total cups sold at Capitol Hill: ' + this.totalDailyCups;
+    cupsLi.textContent = 'Total cups sold at Capitol Hill: ' + round(this.totalDailyCups, 1);
     capHillUl.appendChild(cupsLi);
     var totalDailyToGoPoundsLi = document.createElement('li');
-    totalDailyToGoPoundsLi.textContent = 'Total to-go pound packages sold at Capitol Hill: ' + this.totalPoundsToGo;
+    totalDailyToGoPoundsLi.textContent = 'Total to-go pound packages sold at Capitol Hill: ' + round(this.totalPoundsToGo, 1);
     capHillUl.appendChild(totalDailyToGoPoundsLi);
     var totalDailyPoundsLi = document.createElement('li');
-    totalDailyPoundsLi.textContent = 'Total pounds of beans needed at Capitol Hill: ' + this.totalDailyPoundsNeeded;
+    totalDailyPoundsLi.textContent = 'Total pounds of beans needed at Capitol Hill: ' + round(this.totalDailyPoundsNeeded, 1);
     capHillUl.appendChild(totalDailyPoundsLi);
   },
   render: function() {
@@ -236,35 +231,35 @@ var seattlePublicLibrary = {
   },
   generateCupsPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempCups = this.customersPerHour[i] * this.avgCupsCust;
+      var tempCups = round((this.customersPerHour[i] * this.avgCupsCust), 1);
       this.cupsPerHour.push(tempCups);
       this.totalDailyCups += tempCups;
     }
   },
   generatePoundsPerHourToGo: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempPoundsToGo = this.customersPerHour[i] * this.avgPndsCust;
+      var tempPoundsToGo = round((this.customersPerHour[i] * this.avgPndsCust), 1);
       this.poundsPerHourToGo.push(tempPoundsToGo);
       this.totalPoundsToGo += tempPoundsToGo;
     }
   },
   generatePoundsPerHourCups: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempPoundsForCups = this.cupsPerHour[i] / this.numCupsPerPound;
+      var tempPoundsForCups = round((this.cupsPerHour[i] / this.numCupsPerPound), 1);
       this.poundsPerHourCups.push(tempPoundsForCups);
       this.totalPoundsForCups += tempPoundsForCups;
     }
   },
   generateTotalHourlyPoundsNeeded: function() {
     for (i = 0; i < hours.length; i++) {
-      var tempTotalHourlyPounds = this.poundsPerHourCups[i] + this.poundsPerHourToGo[i];
+      var tempTotalHourlyPounds = round((this.poundsPerHourCups[i] + this.poundsPerHourToGo[i]), 1);
       this.totalHourlyPounds.push(tempTotalHourlyPounds);
       this.totalHourlyPoundsNeeded = tempTotalHourlyPounds;
       console.log(this.totalHourlyPoundsNeeded + ' total hourly pounds needed');
     }
   },
   generateTotalDailyPoundsNeeded: function() {
-    this.totalDailyPoundsNeeded =  this.totalPoundsToGo + this.totalPoundsForCups;
+    this.totalDailyPoundsNeeded =  round((this.totalPoundsToGo + this.totalPoundsForCups), 1);
   },
   generateEmployeesPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
@@ -282,13 +277,13 @@ var seattlePublicLibrary = {
     customersLi.textContent = 'Total customers at Seattle Public Library: ' + this.totalDailyCustomers;
     seaLibraryUl.appendChild(customersLi);
     var cupsLi = document.createElement('li');
-    cupsLi.textContent = 'Total cups sold at Seattle Public Library: ' + this.totalDailyCups;
+    cupsLi.textContent = 'Total cups sold at Seattle Public Library: ' + round(this.totalDailyCups, 1);
     seaLibraryUl.appendChild(cupsLi);
     var totalDailyToGoPoundsLi = document.createElement('li');
-    totalDailyToGoPoundsLi.textContent = 'Total to-go pound packages sold at Seattle Public Library: ' + this.totalPoundsToGo;
+    totalDailyToGoPoundsLi.textContent = 'Total to-go pound packages sold at Seattle Public Library: ' + round(this.totalPoundsToGo, 1);
     seaLibraryUl.appendChild(totalDailyToGoPoundsLi);
     var totalDailyPoundsLi = document.createElement('li');
-    totalDailyPoundsLi.textContent = 'Total pounds of beans needed at Seattle Public Library: ' + this.totalDailyPoundsNeeded;
+    totalDailyPoundsLi.textContent = 'Total pounds of beans needed at Seattle Public Library: ' + round(this.totalDailyPoundsNeeded, 1);
     seaLibraryUl.appendChild(totalDailyPoundsLi);
   },
   render: function() {
@@ -341,21 +336,21 @@ var southLakeUnion = {
   },
   generatePoundsPerHourToGo: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempPoundsToGo = this.customersPerHour[i] * this.avgPndsCust;
+      var tempPoundsToGo = round((this.customersPerHour[i] * this.avgPndsCust), 1);
       this.poundsPerHourToGo.push(tempPoundsToGo);
       this.totalPoundsToGo += tempPoundsToGo;
     }
   },
   generatePoundsPerHourCups: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempPoundsForCups = this.cupsPerHour[i] / this.numCupsPerPound;
+      var tempPoundsForCups = round((this.cupsPerHour[i] / this.numCupsPerPound), 1);
       this.poundsPerHourCups.push(tempPoundsForCups);
       this.totalPoundsForCups += tempPoundsForCups;
     }
   },
   generateTotalHourlyPoundsNeeded: function() {
     for (i = 0; i < hours.length; i++) {
-      var tempTotalHourlyPounds = this.poundsPerHourCups[i] + this.poundsPerHourToGo[i];
+      var tempTotalHourlyPounds = round((this.poundsPerHourCups[i] + this.poundsPerHourToGo[i]), 1);
       this.totalHourlyPounds.push(tempTotalHourlyPounds);
       this.totalHourlyPoundsNeeded = tempTotalHourlyPounds;
       //this.totalHourlyPoundsNeeded = this.poundsPerHourCups[i] + this.poundsPerHourToGo[i];
@@ -363,7 +358,7 @@ var southLakeUnion = {
     }
   },
   generateTotalDailyPoundsNeeded: function() {
-    this.totalDailyPoundsNeeded =  this.totalPoundsToGo + this.totalPoundsForCups;
+    this.totalDailyPoundsNeeded =  round((this.totalPoundsToGo + this.totalPoundsForCups), 1);
   },
   generateEmployeesPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
@@ -381,13 +376,13 @@ var southLakeUnion = {
     customersLi.textContent = 'Total customers at South Lake Union: ' + this.totalDailyCustomers;
     sluUl.appendChild(customersLi);
     var cupsLi = document.createElement('li');
-    cupsLi.textContent = 'Total cups sold at South Lake Union: ' + this.totalDailyCups;
+    cupsLi.textContent = 'Total cups sold at South Lake Union: ' + round(this.totalDailyCups, 1);
     sluUl.appendChild(cupsLi);
     var totalDailyToGoPoundsLi = document.createElement('li');
-    totalDailyToGoPoundsLi.textContent = 'Total to-go pound packages sold at South Lake Union: ' + this.totalPoundsToGo;
+    totalDailyToGoPoundsLi.textContent = 'Total to-go pound packages sold at South Lake Union: ' + round(this.totalPoundsToGo, 1);
     sluUl.appendChild(totalDailyToGoPoundsLi);
     var totalDailyPoundsLi = document.createElement('li');
-    totalDailyPoundsLi.textContent = 'Total pounds of beans needed at South Lake Union: ' + this.totalDailyPoundsNeeded;
+    totalDailyPoundsLi.textContent = 'Total pounds of beans needed at South Lake Union: ' + round(this.totalDailyPoundsNeeded, 1);
     sluUl.appendChild(totalDailyPoundsLi);
   },
   render: function() {
@@ -433,35 +428,35 @@ var seaTacAirport = {
   },
   generateCupsPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempCups = this.customersPerHour[i] * this.avgCupsCust;
+      var tempCups = round((this.customersPerHour[i] * this.avgCupsCust), 1);
       this.cupsPerHour.push(tempCups);
       this.totalDailyCups += tempCups;
     }
   },
   generatePoundsPerHourToGo: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempPoundsToGo = this.customersPerHour[i] * this.avgPndsCust;
+      var tempPoundsToGo = round((this.customersPerHour[i] * this.avgPndsCust), 1);
       this.poundsPerHourToGo.push(tempPoundsToGo);
       this.totalPoundsToGo += tempPoundsToGo;
     }
   },
   generatePoundsPerHourCups: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
-      var tempPoundsForCups = this.cupsPerHour[i] / this.numCupsPerPound;
+      var tempPoundsForCups = round((this.cupsPerHour[i] / this.numCupsPerPound), 1);
       this.poundsPerHourCups.push(tempPoundsForCups);
       this.totalPoundsForCups += tempPoundsForCups;
     }
   },
   generateTotalHourlyPoundsNeeded: function() {
     for (i = 0; i < hours.length; i++) {
-      var tempTotalHourlyPounds = this.poundsPerHourCups[i] + this.poundsPerHourToGo[i];
+      var tempTotalHourlyPounds = round((this.poundsPerHourCups[i] + this.poundsPerHourToGo[i]), 1);
       this.totalHourlyPounds.push(tempTotalHourlyPounds);
       this.totalHourlyPoundsNeeded = tempTotalHourlyPounds;
       console.log(this.totalHourlyPoundsNeeded + ' total hourly pounds needed');
     }
   },
   generateTotalDailyPoundsNeeded: function() {
-    this.totalDailyPoundsNeeded =  this.totalPoundsToGo + this.totalPoundsForCups;
+    this.totalDailyPoundsNeeded =  round((this.totalPoundsToGo + this.totalPoundsForCups), 1);
   },
   generateEmployeesPerHour: function() {
     for (i = 0; i < this.customersPerHour.length; i++) {
@@ -481,13 +476,13 @@ var seaTacAirport = {
     customersLi.textContent = 'Total customers at Sea-Tac Airport: ' + this.totalDailyCustomers;
     seaTacUl.appendChild(customersLi);
     var cupsLi = document.createElement('li');
-    cupsLi.textContent = 'Total cups sold at Sea-Tac Airport: ' + this.totalDailyCups;
+    cupsLi.textContent = 'Total cups sold at Sea-Tac Airport: ' + round(this.totalDailyCups, 1);
     seaTacUl.appendChild(cupsLi);
     var totalDailyToGoPoundsLi = document.createElement('li');
-    totalDailyToGoPoundsLi.textContent = 'Total to-go pound packages sold at Sea-Tac Airport: ' + this.totalPoundsToGo;
+    totalDailyToGoPoundsLi.textContent = 'Total to-go pound packages sold at Sea-Tac Airport: ' + round(this.totalPoundsToGo, 1);
     seaTacUl.appendChild(totalDailyToGoPoundsLi);
     var totalDailyPoundsLi = document.createElement('li');
-    totalDailyPoundsLi.textContent = 'Total pounds of beans needed at Sea-Tac Airport: ' + this.totalDailyPoundsNeeded;
+    totalDailyPoundsLi.textContent = 'Total pounds of beans needed at Sea-Tac Airport: ' + round(this.totalDailyPoundsNeeded, 1);
     seaTacUl.appendChild(totalDailyPoundsLi);
   },
   render: function() {
