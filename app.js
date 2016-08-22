@@ -24,6 +24,7 @@ function CoffeeShop(name, minNumCust, maxNumCust, avgCupsCust, avgToGoPndsCust) 
   this.totalPoundsForCups = 0; //total pounds needed to fulfill daily cup orders (sum of poundsPerHourCups array)
   this.totalHourlyPoundsNeeded = 0; //total pounds needed to fulfill hourly cup and to-go orders
   this.totalDailyPoundsNeeded = 0; //sum of totalPoundsToGo and totalPoundsForCups
+  this.totalDailyEmployeesNeeded = 0; //total employees needed for the day at given Coffee Shop.
   coffeeShopsArray.push(this); //pushes CoffeeShop objects into an array
 };
 
@@ -69,10 +70,18 @@ CoffeeShop.prototype.generateTotalDailyPoundsNeeded = function() {
   this.totalDailyPoundsNeeded = round((this.totalPoundsToGo + this.totalPoundsForCups), 1);
 };
 CoffeeShop.prototype.generateEmployeesPerHour = function() {
-  var tempEmployees = Math.ceil(this.customersPerHour[i] / 30);
-  this.employeesPerHour.push(tempEmployees);
+  for (i = 0; i < hours.length; i++) {
+    var tempEmployeesPerHour = Math.ceil(this.customersPerHour[i] / 30);
+    this.employeesPerHour.push(tempEmployeesPerHour);
+  }
+  console.log(this.employeesPerHour);
 };
-
+CoffeeShop.prototype.generateTotalDailyEmployeesNeeded = function () {
+  for (i = 0; i < hours.length; i++) {
+    var tempTotalDailyEmployees = this.employeesPerHour[i];
+    this.totalDailyEmployeesNeeded += tempTotalDailyEmployees;
+  }
+};
 CoffeeShop.prototype.generateShopInformation = function() {
   this.getRandomNum(this.minNumCust, this.maxNumCust);
   this.generateCustomersPerHour();
@@ -82,6 +91,7 @@ CoffeeShop.prototype.generateShopInformation = function() {
   this.generateTotalHourlyPoundsNeeded();
   this.generateTotalDailyPoundsNeeded();
   this.generateEmployeesPerHour();
+  this.generateTotalDailyEmployeesNeeded();
 };
 
 pikePlaceMarket = new CoffeeShop('Pike Place Market', 14, 35, 1.2, 0.34);
@@ -100,27 +110,47 @@ renderCoffeeShops();
 
 var allShopsTotalDailyPoundsNeeded = 0;
 
-function generateAllShopsDailyTotal() {
+function generateAllShopsDailyBeanTotal() {
   for (var i = 0; i < coffeeShopsArray.length; i++){
     var tempAllShopsTotalDailyPoundsNeeded = coffeeShopsArray[i].totalDailyPoundsNeeded;
-    allShopsTotalDailyPoundsNeeded += tempAllShopsTotalDailyPoundsNeeded;
+    allShopsTotalDailyPoundsNeeded += round(tempAllShopsTotalDailyPoundsNeeded, 1);
   }
 }
 
-var allShopsTotalHourlyPoundsNeededArray = [];
+var allShopsTotalHourlyPoundsArray = [];
 
-function generateAllShopsHourlyTotals() {
+function generateAllShopsHourlyBeanTotals() {
   for (i = 0; i < hours.length; i++) {
-    var allShopsTotalHourlyPoundsNeeded = 0;
+    var allShopsTotalHourlyPounds = 0;
     for (var j = 0; j < coffeeShopsArray.length; j++) {
-      var tempTotalHourlyPoundsAllLocations = coffeeShopsArray[j].totalHourlyPounds[i];
-      console.log(tempTotalHourlyPoundsAllLocations + ' add me');
-      allShopsTotalHourlyPoundsNeeded += tempTotalHourlyPoundsAllLocations;
-      console.log(allShopsTotalHourlyPoundsNeeded + ' total');
+      var tempAllShopsTotalHourlyPounds = coffeeShopsArray[j].totalHourlyPounds[i];
+      allShopsTotalHourlyPounds += tempAllShopsTotalHourlyPounds;
     }
-    allShopsTotalHourlyPoundsNeededArray.push(round(allShopsTotalHourlyPoundsNeeded, 1));
-    console.log(allShopsTotalHourlyPoundsNeededArray);
+    allShopsTotalHourlyPoundsArray.push(round(allShopsTotalHourlyPounds, 1));
   }
+}
+
+var allShopsTotalDailyEmployeesNeeded = 0;
+
+function generateAllShopsDailyEmployeeTotal() {
+  for (var i = 0; i < coffeeShopsArray.length; i++){
+    var tempAllShopsTotalDailyEmployeesNeeded = coffeeShopsArray[i].totalDailyEmployeesNeeded;
+    allShopsTotalDailyEmployeesNeeded += tempAllShopsTotalDailyEmployeesNeeded;
+  }
+}
+
+var allShopsTotalHourlyEmployeesArray = [];
+
+function generateAllShopsHourlyEmployeeTotals() {
+  for (i = 0; i < hours.length; i++) {
+    var allShopsTotalHourlyEmployees = 0;
+    for (var j = 0; j < coffeeShopsArray.length; j++) {
+      var tempAllShopsTotalHourlyEmployees = coffeeShopsArray[j].employeesPerHour[i];
+      allShopsTotalHourlyEmployees += tempAllShopsTotalHourlyEmployees;
+    }
+    allShopsTotalHourlyEmployeesArray.push(allShopsTotalHourlyEmployees);
+  }
+  console.log(allShopsTotalHourlyEmployeesArray);
 }
 
 //DOM manipulation
@@ -166,19 +196,21 @@ function generateTableBody() {
   var allShopsTotalDailyPoundsTdEl = document.createElement('td');
 
   totalsTrEl.textContent = 'Totals';
-  allShopsTotalDailyPoundsTdEl.textContent = allShopsTotalDailyPoundsNeeded;
+  allShopsTotalDailyPoundsTdEl.textContent = round(allShopsTotalDailyPoundsNeeded, 1);
   totalsTrEl.appendChild(allShopsTotalDailyPoundsTdEl);
 
   for (var k = 0; k < hours.length; k++) {
     var allShopsTotalHourlyPoundsTdEl = document.createElement('td');
-    allShopsTotalHourlyPoundsTdEl.textContent = allShopsTotalHourlyPoundsNeededArray[k];
+    allShopsTotalHourlyPoundsTdEl.textContent = allShopsTotalHourlyPoundsArray[k];
     totalsTrEl.appendChild(allShopsTotalHourlyPoundsTdEl);
   }
 
   tableEl.appendChild(totalsTrEl);
 };
 
-generateAllShopsDailyTotal();
-generateAllShopsHourlyTotals();
+generateAllShopsDailyBeanTotal();
+generateAllShopsHourlyBeanTotals();
+generateAllShopsDailyEmployeeTotal();
+generateAllShopsHourlyEmployeeTotals();
 generateTableHeader();
 generateTableBody();
