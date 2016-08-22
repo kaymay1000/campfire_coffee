@@ -157,7 +157,7 @@ function generateAllShopsHourlyEmployeeTotals() {
 
 var tableEl = document.getElementById('shop-data-table'); //hook to hard-coded table in data.html
 
-function generateTableHeader() {
+function generatePoundsTableHeader() {
   var trEl = document.createElement('tr');
   var emptyThEl = document.createElement('th'); //creates empty cell in top left corner of table
   var dailyLocationTotalThEl = document.createElement('th');
@@ -174,7 +174,8 @@ function generateTableHeader() {
   }
   tableEl.appendChild(trEl);
 };
-function generateTableBody() {
+
+function generatePoundsTableBody() {
   for (var i = 0; i < coffeeShopsArray.length; i++) {
     var coffeeShopNameTrEl = document.createElement('tr');
     var coffeeShopNameTdEl = document.createElement('td'); //lists names of coffee shops on far left of table
@@ -208,9 +209,63 @@ function generateTableBody() {
   tableEl.appendChild(totalsTrEl);
 };
 
+function generateEmployeeTableHeader() {
+  var trEl = document.createElement('tr');
+  var emptyThEl = document.createElement('th'); //creates empty cell in top left corner of table
+  var dailyLocationTotalThEl = document.createElement('th');
+
+  emptyThEl.textContent = '';
+  dailyLocationTotalThEl.textContent = 'Daily Location Total';
+  trEl.appendChild(emptyThEl);
+  trEl.appendChild(dailyLocationTotalThEl);
+
+  for (var i in hours) { //creates table header elements that contain hours[i] in each cell
+    var thEl = document.createElement('th');
+    thEl.textContent = hours[i];
+    trEl.appendChild(thEl);
+  }
+  tableEl.appendChild(trEl);
+};
+
+function generateEmployeeTableBody() {
+  for (var i = 0; i < coffeeShopsArray.length; i++) {
+    var coffeeShopNameTrEl = document.createElement('tr');
+    var coffeeShopNameTdEl = document.createElement('td'); //lists names of coffee shops on far left of table
+    var totalDailyEmployeesTdEl = document.createElement('td');
+
+    coffeeShopNameTdEl.textContent = coffeeShopsArray[i].name;
+    coffeeShopNameTrEl.appendChild(coffeeShopNameTdEl);
+    totalDailyEmployeesTdEl.textContent = coffeeShopsArray[i].totalDailyEmployeesNeeded;//grabs the Coffee Shop object at i in the coffeeShopsArray and gets that Coffee Shop's totalDailyEmployeesNeeded value
+    coffeeShopNameTrEl.appendChild(totalDailyEmployeesTdEl);
+
+    for (var j = 0; j < hours.length; j++) {
+      var totalHourlyEmployeesTdEl = document.createElement('td');
+      totalHourlyEmployeesTdEl.textContent = coffeeShopsArray[i].employeesPerHour[j]; //grabs the Coffee Shop object at i in the coffeeShopsArray and gets that Coffee Shop's employeesPerHour array at j (its totalHourlyPoundsNeeded value)
+      coffeeShopNameTrEl.appendChild(totalHourlyEmployeesTdEl);
+    }
+    tableEl.appendChild(coffeeShopNameTrEl);
+  }
+  var totalsTrEl = document.createElement('tr');
+  var allShopsTotalDailyEmployeesTdEl = document.createElement('td');
+
+  totalsTrEl.textContent = 'Totals';
+  allShopsTotalDailyEmployeesTdEl.textContent = allShopsTotalDailyEmployeesNeeded;
+  totalsTrEl.appendChild(allShopsTotalDailyEmployeesTdEl);
+
+  for (var k = 0; k < hours.length; k++) {
+    var allShopsTotalHourlyEmployeesTdEl = document.createElement('td');
+    allShopsTotalHourlyEmployeesTdEl.textContent = allShopsTotalHourlyEmployeesArray[k];
+    totalsTrEl.appendChild(allShopsTotalHourlyEmployeesTdEl);
+  }
+
+  tableEl.appendChild(totalsTrEl);
+};
+
 generateAllShopsDailyBeanTotal();
 generateAllShopsHourlyBeanTotals();
 generateAllShopsDailyEmployeeTotal();
 generateAllShopsHourlyEmployeeTotals();
-generateTableHeader();
-generateTableBody();
+generatePoundsTableHeader();
+generatePoundsTableBody();
+generateEmployeeTableHeader();
+generateEmployeeTableBody();
