@@ -74,7 +74,6 @@ CoffeeShop.prototype.generateEmployeesPerHour = function() {
     var tempEmployeesPerHour = Math.ceil(this.customersPerHour[i] / 30);
     this.employeesPerHour.push(tempEmployeesPerHour);
   }
-  console.log(this.employeesPerHour);
 };
 CoffeeShop.prototype.generateTotalDailyEmployeesNeeded = function () {
   for (i = 0; i < hours.length; i++) {
@@ -99,7 +98,6 @@ capitolHill = new CoffeeShop('Capitol Hill', 12, 28, 3.2, 0.03);
 seattlePublicLibrary = new CoffeeShop('Seattle Public Library', 9, 45, 2.6, 0.02);
 southLakeUnion = new CoffeeShop('South Lake Union', 5, 18, 1.3, 0.04);
 seaTacAirport = new CoffeeShop('Sea-Tac Airport', 28, 44, 1.1, 0.41);
-console.log(coffeeShopsArray);
 
 var renderCoffeeShops = function (){
   for (var i = 0; i < coffeeShopsArray.length; i++) {
@@ -107,6 +105,8 @@ var renderCoffeeShops = function (){
   }
 };
 renderCoffeeShops();
+
+//Calculate all-shop daily and hourly bean totals and employee totals
 
 var allShopsTotalDailyPoundsNeeded = 0;
 
@@ -150,12 +150,11 @@ function generateAllShopsHourlyEmployeeTotals() {
     }
     allShopsTotalHourlyEmployeesArray.push(allShopsTotalHourlyEmployees);
   }
-  console.log(allShopsTotalHourlyEmployeesArray);
 }
 
 //DOM manipulation
 
-var tableEl = document.getElementById('shop-data-table'); //hook to hard-coded table in data.html
+var poundsTableEl = document.getElementById('pounds_data_table'); //hook to hard-coded table in data.html
 
 function generatePoundsTableHeader() {
   var trEl = document.createElement('tr');
@@ -172,7 +171,7 @@ function generatePoundsTableHeader() {
     thEl.textContent = hours[i];
     trEl.appendChild(thEl);
   }
-  tableEl.appendChild(trEl);
+  poundsTableEl.appendChild(trEl);
 };
 
 function generatePoundsTableBody() {
@@ -182,8 +181,8 @@ function generatePoundsTableBody() {
     var totalDailyPoundsTdEl = document.createElement('td');
 
     coffeeShopNameTdEl.textContent = coffeeShopsArray[i].name;
-    coffeeShopNameTrEl.appendChild(coffeeShopNameTdEl);
     totalDailyPoundsTdEl.textContent = coffeeShopsArray[i].totalDailyPoundsNeeded;//grabs the Coffee Shop object at i in the coffeeShopsArray and gets that Coffee Shop's totalDailyPoundsNeeded value
+    coffeeShopNameTrEl.appendChild(coffeeShopNameTdEl);
     coffeeShopNameTrEl.appendChild(totalDailyPoundsTdEl);
 
     for (var j = 0; j < hours.length; j++) {
@@ -191,7 +190,7 @@ function generatePoundsTableBody() {
       totalHourlyPoundsTdEl.textContent = coffeeShopsArray[i].totalHourlyPounds[j]; //grabs the Coffee Shop object at i in the coffeeShopsArray and gets that Coffee Shop's totalHourlyPounds array at j (its totalHourlyPoundsNeeded value)
       coffeeShopNameTrEl.appendChild(totalHourlyPoundsTdEl);
     }
-    tableEl.appendChild(coffeeShopNameTrEl);
+    poundsTableEl.appendChild(coffeeShopNameTrEl);
   }
   var totalsTrEl = document.createElement('tr');
   var allShopsTotalDailyPoundsTdEl = document.createElement('td');
@@ -206,8 +205,10 @@ function generatePoundsTableBody() {
     totalsTrEl.appendChild(allShopsTotalHourlyPoundsTdEl);
   }
 
-  tableEl.appendChild(totalsTrEl);
+  poundsTableEl.appendChild(totalsTrEl);
 };
+
+var employeesTableEl = document.getElementById('employee_data_table');
 
 function generateEmployeeTableHeader() {
   var trEl = document.createElement('tr');
@@ -224,7 +225,7 @@ function generateEmployeeTableHeader() {
     thEl.textContent = hours[i];
     trEl.appendChild(thEl);
   }
-  tableEl.appendChild(trEl);
+  employeesTableEl.appendChild(trEl);
 };
 
 function generateEmployeeTableBody() {
@@ -243,7 +244,7 @@ function generateEmployeeTableBody() {
       totalHourlyEmployeesTdEl.textContent = coffeeShopsArray[i].employeesPerHour[j]; //grabs the Coffee Shop object at i in the coffeeShopsArray and gets that Coffee Shop's employeesPerHour array at j (its totalHourlyPoundsNeeded value)
       coffeeShopNameTrEl.appendChild(totalHourlyEmployeesTdEl);
     }
-    tableEl.appendChild(coffeeShopNameTrEl);
+    employeesTableEl.appendChild(coffeeShopNameTrEl);
   }
   var totalsTrEl = document.createElement('tr');
   var allShopsTotalDailyEmployeesTdEl = document.createElement('td');
@@ -258,14 +259,47 @@ function generateEmployeeTableBody() {
     totalsTrEl.appendChild(allShopsTotalHourlyEmployeesTdEl);
   }
 
-  tableEl.appendChild(totalsTrEl);
+  employeesTableEl.appendChild(totalsTrEl);
 };
 
-generateAllShopsDailyBeanTotal();
-generateAllShopsHourlyBeanTotals();
-generateAllShopsDailyEmployeeTotal();
-generateAllShopsHourlyEmployeeTotals();
-generatePoundsTableHeader();
-generatePoundsTableBody();
-generateEmployeeTableHeader();
-generateEmployeeTableBody();
+function clearTables(){
+  var poundsTableEl = document.getElementById('pounds_data_table');
+  poundsTableEl.innerHTML = '';
+  var employeeTableEl = document.getElementById('employee_data_table');
+  employeeTableEl.innerHTML = '';
+}
+
+function generateForm() {
+  var coffeeShopForm = document.getElementById('add_coffee_shop');
+
+  coffeeShopForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    var shopName = event.target.shop_name.value;
+    var minCust = event.target.min_cust.value;
+    var maxCust = event.target.max_cust.value;
+    var avgCups = event.target.avg_cups.value;
+    var avgPndsToGo = event.target.avg_pnds_togo.value;
+    var newShop = new CoffeeShop(shopName, minCust, maxCust, avgCups, avgPndsToGo);
+    newShop.generateShopInformation();
+    allShopsTotalDailyPoundsNeeded = 0;
+    allShopsTotalHourlyPoundsArray = [];
+    allShopsTotalDailyEmployeesNeeded = 0;
+    allShopsTotalHourlyEmployeesArray = [];
+    clearTables();
+    generateTables();
+  });
+}
+
+function generateTables() {
+  generateAllShopsDailyBeanTotal();
+  generateAllShopsHourlyBeanTotals();
+  generateAllShopsDailyEmployeeTotal();
+  generateAllShopsHourlyEmployeeTotals();
+  generatePoundsTableHeader();
+  generatePoundsTableBody();
+  generateEmployeeTableHeader();
+  generateEmployeeTableBody();
+}
+
+generateForm();
+generateTables();
