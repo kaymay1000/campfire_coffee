@@ -5,7 +5,19 @@
     <title></title>
   </head>
   <body>
-    <table id = 'shop-data-table'></table>
+    <form id="add_coffee_shop">
+      <fieldset>
+        <legend>Add a Coffee Shop</legend>
+          <label>Shop Name: <input type="text" id="shop_name"></label>
+          <label>Min Number Customers: <input type="text" id="min_cust"></label>
+          <label>Max Number Customers: <input type="text" id="max_cust"></label>
+          <label>Avg Cups/Customer: <input type="text" id="avg_cups"></label>
+          <label>Avg Lbs To-Go/Customer: <input type="text" id="avg_pnds_togo"></label>
+          <input type="submit" id="submit">
+      </fieldset>
+    </form>
+    <table id = "pounds_data_table"></table>
+    <table id = "employee_data_table"></table>
     <script type="text/javascript" src = "app.js"></script>
   </body>
 </html>
