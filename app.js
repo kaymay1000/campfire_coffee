@@ -275,10 +275,10 @@ function generateForm() {
   coffeeShopForm.addEventListener('submit', function(event) {
     event.preventDefault();
     var shopName = event.target.shop_name.value;
-    var minCust = event.target.min_cust.value;
-    var maxCust = event.target.max_cust.value;
-    var avgCups = event.target.avg_cups.value;
-    var avgPndsToGo = event.target.avg_pnds_togo.value;
+    var minCust = parseFloat(event.target.min_cust.value);
+    var maxCust = parseFloat(event.target.max_cust.value);
+    var avgCups = parseFloat(event.target.avg_cups.value);
+    var avgPndsToGo = parseFloat(event.target.avg_pnds_togo.value);
     var newShop = new CoffeeShop(shopName, minCust, maxCust, avgCups, avgPndsToGo);
     newShop.generateShopInformation();
     allShopsTotalDailyPoundsNeeded = 0;
