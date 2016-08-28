@@ -181,6 +181,7 @@ function generatePoundsTableBody() {
     var totalDailyPoundsTdEl = document.createElement('td');
 
     coffeeShopNameTdEl.textContent = coffeeShopsArray[i].name;
+    coffeeShopNameTdEl.classList.add('name_column');
     totalDailyPoundsTdEl.textContent = coffeeShopsArray[i].totalDailyPoundsNeeded;//grabs the Coffee Shop object at i in the coffeeShopsArray and gets that Coffee Shop's totalDailyPoundsNeeded value
     coffeeShopNameTrEl.appendChild(coffeeShopNameTdEl);
     coffeeShopNameTrEl.appendChild(totalDailyPoundsTdEl);
@@ -196,7 +197,9 @@ function generatePoundsTableBody() {
   var allShopsTotalDailyPoundsTdEl = document.createElement('td');
 
   totalsTrEl.textContent = 'Totals';
+  totalsTrEl.classList.add('totals_row');
   allShopsTotalDailyPoundsTdEl.textContent = round(allShopsTotalDailyPoundsNeeded, 1);
+  allShopsTotalDailyPoundsTdEl.classList.add('totals_row');
   totalsTrEl.appendChild(allShopsTotalDailyPoundsTdEl);
 
   for (var k = 0; k < hours.length; k++) {
@@ -235,6 +238,7 @@ function generateEmployeeTableBody() {
     var totalDailyEmployeesTdEl = document.createElement('td');
 
     coffeeShopNameTdEl.textContent = coffeeShopsArray[i].name;
+    coffeeShopNameTdEl.classList.add('name_column');
     coffeeShopNameTrEl.appendChild(coffeeShopNameTdEl);
     totalDailyEmployeesTdEl.textContent = coffeeShopsArray[i].totalDailyEmployeesNeeded;//grabs the Coffee Shop object at i in the coffeeShopsArray and gets that Coffee Shop's totalDailyEmployeesNeeded value
     coffeeShopNameTrEl.appendChild(totalDailyEmployeesTdEl);
@@ -250,7 +254,9 @@ function generateEmployeeTableBody() {
   var allShopsTotalDailyEmployeesTdEl = document.createElement('td');
 
   totalsTrEl.textContent = 'Totals';
+  totalsTrEl.classList.add('totals_row');
   allShopsTotalDailyEmployeesTdEl.textContent = allShopsTotalDailyEmployeesNeeded;
+  allShopsTotalDailyEmployeesTdEl.classList.add('totals_row');
   totalsTrEl.appendChild(allShopsTotalDailyEmployeesTdEl);
 
   for (var k = 0; k < hours.length; k++) {

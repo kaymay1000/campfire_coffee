@@ -1,0 +1,63 @@
+.body_styles {
+  background-color: #C19D64;
+}
+.table_styles {
+  text-align: center;
+  border: 3px solid #653D00;
+  border-radius: 10px;
+  border-spacing: 6px;
+}
+
+.label_styles {
+  font-size: 18px;
+}
+
+.input_styles {
+  display: inline;
+  width: 50px;
+  margin: 7px;
+  padding: 5px;
+}
+
+.submit {
+  width: 85px;
+  font-size: 15px;
+  margin-left: 37px;
+  border-radius: 10px;
+  border-color: #653D00;
+  background-color: white;
+
+}
+
+#fieldset {
+  border: 3px solid #653D00;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+#legend {
+  border: 3px solid #653D00;
+  border-radius: 10px;
+  padding: 7px;
+  font-family: fantasy;
+  font-size: 23px;
+}
+
+h1 {
+  margin: 15px, 0px, 15px, 10px;
+  font-family: fantasy;
+  font-size: 23px;
+}
+
+/* linked to DOM */
+
+.totals_row {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.name_column {
+  text-align: left;
+}
