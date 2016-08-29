@@ -1,0 +1,134 @@
+.body_styles {
+  background-color: #C19D64;
+}
+
+/*data.html*/
+
+.table_styles {
+  text-align: center;
+  border: 3px solid #653D00;
+  border-radius: 10px;
+  border-spacing: 6px;
+}
+
+.label_styles {
+  font-size: 18px;
+}
+
+.input_styles {
+  display: inline;
+  width: 50px;
+  margin: 7px;
+  padding: 5px;
+}
+
+.submit {
+  width: 85px;
+  font-size: 15px;
+  margin-left: 37px;
+  border-radius: 10px;
+  border-color: #653D00;
+  background-color: white;
+
+}
+
+#fieldset {
+  border: 3px solid #653D00;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+#legend {
+  border: 3px solid #653D00;
+  border-radius: 10px;
+  padding: 7px;
+  font-family: fantasy;
+  font-size: 23px;
+}
+
+#table_h1 {
+  margin: 15px, 0px, 15px, 10px;
+  font-family: fantasy;
+  font-size: 23px;
+}
+
+/*linked to DOM*/
+
+.totals_row {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.name_column {
+  text-align: left;
+}
+
+/*index.html*/
+
+header > h1 {
+  margin: 0px;
+  padding-top: 10px;
+  font-family: fantasy;
+  font-size: 45px;
+  text-align: center;
+  text-decoration: underline;
+}
+
+header > p {
+  margin: 0px;
+  font-family: fantasy;
+  font-size: 16px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.main_styles {
+  padding: 35px;
+}
+
+main > h2 {
+  font-family: fantasy;
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 0px;
+  text-decoration: underline;
+}
+
+main > p {
+  list-style: none;
+  font-size: 20px;
+  text-align: center;
+  margin: 4px;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+div {
+  display: flex;
+  justify-content: center;
+}
+
+#campfire {
+  margin-top: 20px;
+  width: 400px;
+  height: 216px;
+  padding: 20px;
+}
+
+#night {
+  margin-top: 20px;
+  width: 378px;
+  height: 216px;
+  padding: 20px;
+}
+
+#family {
+  margin-top: 20px;
+  padding: 20px;
+}
+
+#hours {
+  font-size: 15px;
+  text-transform: uppercase;
+}
