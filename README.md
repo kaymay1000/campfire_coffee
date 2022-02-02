@@ -1,6 +1,6 @@
 # campfire_coffee
 
-Intermediate JS project that calculates random sales numbers based on user input, and renders the data into a consumable table.
+Intermediate JS project that calculates randomized coffee sales numbers based on user input, and renders the data into a consumable table.
 
 ## Running the project
 
